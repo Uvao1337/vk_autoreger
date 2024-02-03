@@ -30,10 +30,16 @@ class Robot:
         self.sex_input = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[1]/div[3]/label/select"
         self.continue3_button = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[2]/button/span[1]"
     
-    def create_mail_ru(self) -> None:
+    def __connect_mail(self, mail) -> None:
+        # СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ 
         pass
 
-    def get_vk_token(self) -> None:
+    def __create_mail_ru(self) -> None:
+        # СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ 
+        pass
+
+    def __get_vk_token(self) -> None:
+        # СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ СДЕЛАТЬ 
         pass
 
     def create_vk(self, number) -> None:
