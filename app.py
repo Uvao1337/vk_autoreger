@@ -32,8 +32,9 @@ TEST = '+792570613376'
 
 sms = Executor(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
 robot = Robot(debug_mode=DEBUG_MODE)
+
 for task in range(TASKS):
-    robot.run(TEST)
+    robot.create_vk(TEST)
     
 
 

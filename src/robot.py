@@ -39,35 +39,31 @@ class Robot:
     def create_vk(self, number) -> None:
         # # открываем вк
         self.browser.get(self.vk_url)
-        # # находим кнопку sign up и нажимаем на нее
-        # WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.sign_in))).click()
-        # # находим поле для ввода номера тела 
-        # field = WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.number_field)))
-        # field.click()
-        # field.send_keys(Keys.BACK_SPACE)
-        # field.send_keys(Keys.BACK_SPACE)
-        # # вводим туда наш псевдономер
-        # field.send_keys(number)
-        # # находим кнопку продолжить и нажимаем на нее
-        # WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue_button))).click()
-        # """
-        # логика для получения и ввода кода...
-        # """
-        # code = input("код: ")
-        # WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.code_field))).send_keys(code)
-        # WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue2_button))).click()
-        # # находим поле для ввода имени и вводи туда фейковое имя
-        # WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.name_input))).send_keys(self.fake.first_name_male())
-        # # находим поле для ввода имени и вводи туда фейковую фамилию
-        # WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.surname_input))).send_keys(self.fake.last_name_male())
-        # # находим поле для ввода имени и вводи туда фейковую дату рождения
-        # WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.birthday_input))).send_keys(self.fake.date_of_birth(minimum_age=25, maximum_age=50).strftime("%d %m %Y "))
-        # select = Select(self.browser.find_element(By.XPATH, self.sex_input))
-        # select.select_by_value("2")
-        # WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue3_button))).click()
-        time.sleep(10)
-        body = self.browser.find_element(By.TAG_NAME, "body")
-        body.send_keys(Keys.CONTROL + 'T')
-        self.browser.close()
-        time.sleep(5)
+        # находим кнопку sign up и нажимаем на нее
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.sign_in))).click()
+        # находим поле для ввода номера тела 
+        field = WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.number_field)))
+        field.click()
+        field.send_keys(Keys.BACK_SPACE)
+        field.send_keys(Keys.BACK_SPACE)
+        # вводим туда наш псевдономер
+        field.send_keys(number)
+        # находим кнопку продолжить и нажимаем на нее
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue_button))).click()
+        """
+        логика для получения и ввода кода...
+        """
+        code = input("код: ")
+        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.code_field))).send_keys(code)
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue2_button))).click()
+        # находим поле для ввода имени и вводи туда фейковое имя
+        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.name_input))).send_keys(self.fake.first_name_male())
+        # находим поле для ввода имени и вводи туда фейковую фамилию
+        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.surname_input))).send_keys(self.fake.last_name_male())
+        # находим поле для ввода имени и вводи туда фейковую дату рождения
+        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.birthday_input))).send_keys(self.fake.date_of_birth(minimum_age=25, maximum_age=50).strftime("%d %m %Y "))
+        select = Select(self.browser.find_element(By.XPATH, self.sex_input))
+        select.select_by_value("2")
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue3_button))).click()
+        
 
