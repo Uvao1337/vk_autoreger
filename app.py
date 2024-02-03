@@ -14,6 +14,7 @@ MAX_PRICE = cfg['Settings']['max_price']
 SEX = cfg['Settings']['accounts_sex']
 AUTOUPLOAD = cfg['Settings']['auto_upload']
 AUTOUPLOAD_IF_MORE_THAN = cfg['Settings']['autoupload_if_more_than']
+AUTOPROMOTION = cfg['Settings']['auto_promotion']
 TASKS = 1
 TEST = '+792570613376'
 
@@ -37,6 +38,7 @@ print(                  "===================================\n\n")
 print(f"{Fore.BLUE}---> Настройки <---\n\n{Fore.CYAN}=======================================\n")
 print(f"{Fore.YELLOW}Режим отладки: {Fore.BLUE}{DEBUG_MODE}\n\n"
       f"{Fore.YELLOW}Максимальная цена номера: {Fore.BLUE}{MAX_PRICE}\n\n"
+      f"{Fore.YELLOW}Автоповышение максимальной цены: {Fore.BLUE}{AUTOPROMOTION}\n\n"
       f"{Fore.YELLOW}Пол аккаунтов: {Fore.BLUE}{SEX}\n\n"
       f"{Fore.YELLOW}Автовыгрузка на {Fore.GREEN}lolz.guru{Fore.WHITE}: {Fore.BLUE}{AUTOUPLOAD}\n")
 if AUTOUPLOAD:
