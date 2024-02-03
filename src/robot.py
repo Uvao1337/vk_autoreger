@@ -1,4 +1,5 @@
 import time
+from src.api import Executor
 from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -9,8 +10,10 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.common.exceptions import TimeoutException
 
 class Robot:
-    def __init__(self, debug_mode = False) -> None:
+    def __init__(self, sms_activate_key, debug_mode = False) -> None:
+        self.sms_activate_key = sms_activate_key
         self.debug_mode = debug_mode
+        self.sms = Executor(sms_activate_key=self.sms_activate_key, debug_mode=self.debug_mode)
         self.browser = webdriver.Chrome()
         self.fake = Faker("ru_RU")
         self.vk_url = 'https://vk.com/'
@@ -65,7 +68,7 @@ class Robot:
         """
         
         pass
-
+    
     def __get_vk_token(self) -> str:
         """
         СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ СДЕЛАТЬ 
@@ -74,7 +77,6 @@ class Robot:
         """
         # создаем новую вкладку
         try:
-
             self.browser.execute_script("window.open('');")
             # переключаемся на нее
             self.browser.switch_to.window(self.browser.window_handles[1])

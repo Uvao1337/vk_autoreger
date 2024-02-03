@@ -34,9 +34,10 @@ TASKS = 1
 # псевдономер для тестов
 TEST = '+792570613376'
 
-sms = Executor(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
-robot = Robot(debug_mode=DEBUG_MODE)
 
+robot = Robot(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
+
+# повторяем цикл в зависимости от количества задач
 for task in range(TASKS):
     print(f"[main] Задача {task}/{TASKS}")
     """
