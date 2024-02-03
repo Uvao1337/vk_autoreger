@@ -52,7 +52,7 @@ while True:
 robot = Robot(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
 
 # повторяем цикл в зависимости от количества задач
-for task in range(TASKS):
+for task in range(1, TASKS):
     print(f"\n{Fore.YELLOW}Задача: {Fore.CYAN}{task}/{TASKS}\n")
     """
     вызов метода покупки номера
