@@ -33,13 +33,13 @@ print(                  "|                                  |")
 print(                  f"|         {Fore.WHITE}и {Fore.BLUE}Тимоши{Fore.WHITE} к {Fore.MAGENTA}Лере {Fore.YELLOW}         |")
 print(                  "|                                  |")
 print(                  "===================================\n\n")
-print(Fore.CYAN +     "=======================================\n")
-print(f"{Fore.YELLOW}Настройки:\n\n{Fore.YELLOW}Режим отладки: {Fore.BLUE}{DEBUG_MODE}\n\n"
+print(f"{Fore.BLUE}Настройки:\n\n{Fore.CYAN}=======================================\n")
+print(f"{Fore.YELLOW}Режим отладки: {Fore.BLUE}{DEBUG_MODE}\n\n"
       f"{Fore.YELLOW}Максимальная цена номера: {Fore.BLUE}{MAX_PRICE}\n\n"
       f"{Fore.YELLOW}Автовыгрузка на {Fore.GREEN}lolz.guru{Fore.WHITE}: {Fore.BLUE}{AUTOUPLOAD}\n")
 if AUTOUPLOAD:
     print(f"{Fore.YELLOW}Выгружать если аккаунтов создано: {Fore.BLUE}{AUTOUPLOAD_IF_MORE_THAN}\n")
-print(Fore.CYAN +     f"========================================{Fore.WHITE}")
+print(Fore.CYAN +     f"========================================")
 
 
 while True:
