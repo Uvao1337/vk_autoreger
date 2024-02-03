@@ -1,4 +1,4 @@
-from api import Executor
+from src.api import Executor
 from src.robot import Robot
 
 """
@@ -34,6 +34,8 @@ sms = Executor(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
 robot = Robot(debug_mode=DEBUG_MODE)
 
 for task in range(TASKS):
+    if DEBUG_MODE:
+        print(f"[main] Задача {task}/{TASKS}\n")
     """
     вызов метода покупки номера
     
@@ -42,6 +44,7 @@ for task in range(TASKS):
     получение данных и запись их в файлик
     """
     data = robot.create_vk(TEST)
+    
 
     
 
