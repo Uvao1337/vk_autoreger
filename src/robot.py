@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.common.exceptions import TimeoutException
 
 class Robot:
     def __init__(self, debug_mode = False) -> None:
@@ -58,55 +59,127 @@ class Robot:
         pass
 
     def create_vk(self, number) -> dict:
-        # # открываем вк
-        if self.debug_mode:
-            print("[robot] - Начинаю алгоритм создания аккаунта")
-            print("[robot] - Открываю вк")
-        self.browser.get(self.vk_url)
-        # находим кнопку sign up и нажимаем на нее
-        if self.debug_mode:
-            print("[robot] - Нажимаю на кнопку зарегаться")
-        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.sign_in))).click()
-        # находим поле для ввода номера тела
-        if self.debug_mode:
-            print("[robot] - Ввожу номер")
-        field = WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.number_field)))
-        field.click()
-        field.send_keys(Keys.BACK_SPACE)
-        field.send_keys(Keys.BACK_SPACE)
-        # вводим туда наш псевдономер
-        field.send_keys(number)
-        # находим кнопку продолжить и нажимаем на нее
-        if self.debug_mode:
-            print("[robot] - Нажимаю кнопку продолжить")
-        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue_button))).click()
-        # логика для получения и ввода кода...
-        code = input("[robot] Код подтверждения: ")
-        if self.debug_mode:
-            print("[robot] - Ввожу код")
-        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.code_field))).send_keys(code)
-        if self.debug_mode:
-            print("[robot] - Нажимаю кнопку продолжить")
-        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue2_button))).click()
-        if self.debug_mode:
-            print("[robot] - Ввожу имя")
-        # находим поле для ввода имени и вводи туда фейковое имя
-        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.name_input))).send_keys(self.fake.first_name_male())
-        if self.debug_mode:
-            print("[robot] - Ввожу фамилию")
-        # находим поле для ввода имени и вводи туда фейковую фамилию
-        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.surname_input))).send_keys(self.fake.last_name_male())
-        if self.debug_mode:
-            print("[robot] - Ввожу дату рождения")
-        # находим поле для ввода имени и вводи туда фейковую дату рождения
-        WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.birthday_input))).send_keys(self.fake.date_of_birth(minimum_age=25, maximum_age=50).strftime("%d %m %Y "))
-        if self.debug_mode:
-            print("[robot] - Выбираю пол")
-        select = Select(self.browser.find_element(By.XPATH, self.sex_input))
-        select.select_by_value("2")
-        if self.debug_mode:
-            print("[robot] - Нажимаю кнопку продолжить")
-        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue3_button))).click()
+        try:
+            # # открываем вк
+            if self.debug_mode:
+                print("[robot] - Начинаю алгоритм создания аккаунта")
+                print("[robot] - Открываю вк")
+            self.browser.get(self.vk_url)
+
+            # находим кнопку sign up и нажимаем на нее
+            if self.debug_mode:
+                print("[robot] - Нажимаю на кнопку зарегаться")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.sign_in))).click()
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка зарегаться не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # находим поле для ввода номера тела
+            if self.debug_mode:
+                print("[robot] - Ввожу номер")
+            try:
+                field = WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.number_field)))
+                field.click()
+                field.send_keys(Keys.BACK_SPACE)
+                field.send_keys(Keys.BACK_SPACE)
+                field.send_keys(number)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Поле для ввода номера не найдено. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # находим кнопку продолжить и нажимаем на нее
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку продолжить")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue_button))).click()
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка продолжить не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # логика для получения и ввода кода...
+            code = input("[robot] Код подтверждения: ")
+            
+            if self.debug_mode:
+                print("[robot] - Ввожу код")
+            try:
+                WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.code_field))).send_keys(code)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Поле для ввода кода не найдено. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку продолжить")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue2_button))).click()
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка продолжить не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # находим поле для ввода имени и вводи туда фейковое имя
+            if self.debug_mode:
+                print("[robot] - Ввожу имя")
+            try:
+                WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.name_input))).send_keys(self.fake.first_name_male())
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Поле для ввода имени не найдено. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # находим поле для ввода фамилии и вводи туда фейковую фамилию
+            if self.debug_mode:
+                print("[robot] - Ввожу фамилию")
+            try:
+                WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.surname_input))).send_keys(self.fake.last_name_male())
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Поле для ввода фамилии не найдено. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # находим поле для ввода даты и вводи туда фейковую дату рождения
+            if self.debug_mode:
+                print("[robot] - Ввожу дату рождения")
+            try:
+                WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.birthday_input))).send_keys(self.fake.date_of_birth(minimum_age=25, maximum_age=50).strftime("%d %m %Y "))
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Поле для ввода даты рождения не найдено. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            if self.debug_mode:
+                print("[robot] - Выбираю пол")
+            select = Select(self.browser.find_element(By.XPATH, self.sex_input))
+            select.select_by_value("2")
+
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку продолжить")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue3_button))).click()
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка продолжить не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            
+        except Exception as x:
+            self.browser.quit()
+            print(f"[robot] Произошла неизвестная ошибка. Текст ошибки: {x} ENTER для выхода")
+            input()
+            exit()
+
         """
         получение токена (__get_vk_token)
 

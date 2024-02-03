@@ -19,7 +19,6 @@ print("=====================\n"
 """
 TODO: метод создания почты мэйл ру через регнутый акк + привязка почты к вк
 TODO: метод получения токена череза vk_host
-TODO: обработка исключений
 
 """
 # ключ апи от сервиса sms activate
@@ -39,8 +38,7 @@ sms = Executor(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
 robot = Robot(debug_mode=DEBUG_MODE)
 
 for task in range(TASKS):
-    if DEBUG_MODE:
-        print(f"[main] Задача {task}/{TASKS}")
+    print(f"[main] Задача {task}/{TASKS}")
     """
     вызов метода покупки номера
     
