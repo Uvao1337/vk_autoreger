@@ -30,7 +30,13 @@ class Robot:
         self.sex_input = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[1]/div[3]/label/select"
         self.continue3_button = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[2]/button/span[1]"
     
-    def run(self, number) -> None:
+    def create_mail_ru(self) -> None:
+        pass
+
+    def get_vk_token(self) -> None:
+        pass
+
+    def create_vk(self, number) -> None:
         # # открываем вк
         self.browser.get(self.vk_url)
         # # находим кнопку sign up и нажимаем на нее
