@@ -3,23 +3,25 @@ from src.api import Executor
 from src.robot import Robot
 os.system('cls')
 os.system('TITLE autoreger v 1.0')
-"""
-" " " " " " " " " " "                   
-"  autoreger        "
-"                   "
-"    v 1.0          "
-"                   "
-"     dev           "
-"                   "
-"                   "
-" " " " " " " " " " "
 
+print("=====================\n"
+      "|   autoreger        |\n"
+      "|                    |\n"
+      "|     v 1.0          |\n"
+      "|                    |\n"
+      "|      dev           |\n"
+      "|                    |\n"
+      "|    private         |\n"
+      "|                    |\n"
+      "| by илюша & тимоша  |\n"
+      "|                    |\n"
+      "=====================\n")
+"""
 TODO: метод создания почты мэйл ру через регнутый акк + привязка почты к вк
 TODO: метод получения токена череза vk_host
 TODO: обработка исключений
 
 """
-
 # ключ апи от сервиса sms activate
 SMS_ACTIVATE_KEY = 'Af6e8801cd3b821e6dc2342A9A8682ee'
 # режим отладки для вывода системных сообщений 
