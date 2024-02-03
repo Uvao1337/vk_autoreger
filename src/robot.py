@@ -32,7 +32,22 @@ class Robot:
         self.sex_input = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[1]/div[3]/label/select"
         # xpath адрес кнопки продолжить после ввода информации о себе
         self.continue3_button = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[2]/button/span[1]"
-    
+        
+        # xpath адрес кнопки настройки
+        self.settings_button = "/html/body/section[1]/div/div[16]"
+        # xpath адреса кнопок разрешений
+        self.allow_audio_button = "/html/body/div[1]/div/div[2]/div[2]/label[4]"
+        self.allow_notifications_button = "/html/body/div[1]/div/div[2]/div[2]/label[1]"
+        self.allow_add_to_menu_button = "/html/body/div[1]/div/div[2]/div[2]/label[8]"
+        self.allow_fast_posts_button = "/html/body/div[1]/div/div[2]/div[2]/label[9]"
+        self.allow_messages_button = "/html/body/div[1]/div/div[2]/div[2]/label[12]"
+        self.allow_ads_button = "/html/body/div[1]/div/div[2]/div[2]/label[22]"
+        self.allow_phone_button = "/html/body/div[1]/div/div[2]/div[2]/label[25]"
+        # xpath адрес кнопки получить
+        self.get_button = '//*[@id="submit"]'
+        # xpath адрес кнопки разрешить 
+        self.allow_button = "/html/body/div[1]/div/div/div[3]/div/div[1]/button[1]"
+
     
     def __connect_mail(self, mail) -> bool:
         """
@@ -58,14 +73,132 @@ class Robot:
         return токен
         """
         # создаем новую вкладку
-        self.browser.execute_script("window.open('');")
-        # переключаемся на нее
-        self.browser.switch_to.window(self.browser.window_handles[1])
-        # открываем сайт для получения токена
-        if self.debug_mode:
-            print("[robot] - Открываю сайт для получения токена")
-        self.browser.get(self.get_token_url)
-        # нажимаем кнопку настройки
+        try:
+
+            self.browser.execute_script("window.open('');")
+            # переключаемся на нее
+            self.browser.switch_to.window(self.browser.window_handles[1])
+            # открываем сайт для получения токена
+            if self.debug_mode:
+                print("[robot] - Открываю сайт для получения токена")
+            self.browser.get(self.get_token_url)
+            # нажимаем кнопку настройки
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку настройки")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.settings_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка настройки не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            # тыкаем на все разрешения
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку разрешить аудио")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_audio_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить аудио не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку уведомления аудио")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_notifications_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить уведолмения не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку разрешить добавить в меню")    
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_add_to_menu_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить добавить в меню не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку разрешить быстрые посты")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_fast_posts_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить быстрые посты не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку разрешить сообщения")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_messages_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить сообщения не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку разрешить рекламу")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_ads_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить рекламу не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку разрешить номер телефона")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_phone_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить номер телефона не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # нажимаем кнопку получить
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку получить токен")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.get_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка получить токен не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+
+            # нажимаем кнопку разрешить
+            if self.debug_mode:
+                print("[robot] - Нажимаю кнопку разрешить")
+            try:
+                WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_button))).click()
+                time.sleep(5)
+            except TimeoutException:
+                self.browser.quit()
+                print("[robot] Кнопка разрешить не найдена. Проверьте XPATH. ENTER для выхода")
+                input()
+                exit()
+                
+        except Exception as x:
+            self.browser.quit()
+            print(f"[robot] Произошла неизвестная ошибка. Текст ошибки: {x} ENTER для выхода")
+            input()
+            exit()
+            
+        # получаем содержимое адресной строки и обрезаем лишнее
+        url = self.browser.current_url()
+        input(url)
+
         
     def create_vk(self, number) -> dict:
         try:
