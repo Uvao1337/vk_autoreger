@@ -5,6 +5,16 @@ class Executor:
         self.sms_activate_key = sms_activate_key
         self.debug_mode = debug_mode
         self.api_url = 'https://api.sms-activate.org/stubs/handler_api.php'
+    
+    def get_balance(self) -> int:
+        data = {"action" : "getBalanceAndCashBack",
+                "api_key" : self.sms_activate_key,
+                }
+        # делаем апи запрос на получение номера
+        r = requests.get(self.api_url, params=data)
+        balance = float(r.text.split(":")[1])
+        return balance
+
 
     def get_number(self, max_price=None) -> dict:
         data = {"action" : "getNumber",

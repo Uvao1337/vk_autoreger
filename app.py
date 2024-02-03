@@ -1,45 +1,59 @@
 import os
+import configparser
+from colorama import Fore
 from src.api import Executor
 from src.robot import Robot
-os.system('cls')
-os.system('TITLE autoreger v 1.0')
 
-print("=====================\n"
-      "|   autoreger        |\n"
-      "|                    |\n"
-      "|     v 1.0          |\n"
-      "|                    |\n"
-      "|      dev           |\n"
-      "|                    |\n"
-      "|    private         |\n"
-      "|                    |\n"
-      "| by илюша & тимоша  |\n"
-      "|                    |\n"
-      "=====================\n")
-"""
-TODO: метод создания почты мэйл ру через регнутый акк + привязка почты к вк
-TODO: метод получения токена череза vk_host
+cfg = configparser.ConfigParser()
+cfg.read('cfg/config.ini')
 
-"""
-# ключ апи от сервиса sms activate
-SMS_ACTIVATE_KEY = 'Af6e8801cd3b821e6dc2342A9A8682ee'
-# режим отладки для вывода системных сообщений 
-DEBUG_MODE = True
-# прокси (рекомендуются мобильные или резидентские с ротацией на каждый запрос)
-PROXY = ''
-# максимальная цена на виртуальный номер
-MAX_PRICE = 20
-# количество аккаунтов которое нужно зарегистрировать
+SMS_ACTIVATE_KEY = cfg['Settings']['sms_activate_key']
+DEBUG_MODE = cfg['Settings']['debug_mode']
+PROXY = cfg['Settings']['proxy']
+MAX_PRICE = cfg['Settings']['max_price']
+AUTOUPLOAD = cfg['Settings']['auto_upload']
+AUTOUPLOAD_IF_MORE_THAN = cfg['Settings']['autoupload_if_more_than']
 TASKS = 1
-# псевдономер для тестов
 TEST = '+792570613376'
 
+os.system('cls')
+os.system('TITLE autoreger v 1.0')
+print(Fore.YELLOW +     "===================================")
+print(                  "|                                  |")
+print(                 f"|    {Fore.MAGENTA}External autoreger script{Fore.YELLOW}     |")
+print(                  "|                                  |")
+print(                 f"|          {Fore.CYAN}v 1.0{Fore.YELLOW}                   |")
+print(                  "|                                  |")
+print(                 f"|        {Fore.RED}Type: dev{Fore.YELLOW}                 |")
+print(                  "|                                  |")
+print(                 f"|    {Fore.WHITE}coded by {Fore.BLUE}Илюша {Fore.WHITE}& {Fore.BLUE}Тимоша{Fore.YELLOW}       |")
+print(                  "|                                  |")
+print(                  f"|    {Fore.WHITE}с любовью {Fore.BLUE}Илюши{Fore.WHITE} к {Fore.MAGENTA}Дашуле {Fore.YELLOW}     |")
+print(                  "|                                  |")
+print(                  f"|         {Fore.WHITE}и {Fore.BLUE}Тимоши{Fore.WHITE} к {Fore.MAGENTA}Лере {Fore.YELLOW}         |")
+print(                  "|                                  |")
+print(                  "===================================\n\n")
+print(Fore.CYAN +     "=======================================\n")
+print(f"{Fore.YELLOW}Настройки:\n\n{Fore.YELLOW}Режим отладки: {Fore.BLUE}{DEBUG_MODE}\n\n"
+      f"{Fore.YELLOW}Максимальная цена номера: {Fore.BLUE}{MAX_PRICE}\n\n"
+      f"{Fore.YELLOW}Автовыгрузка на {Fore.GREEN}lolz.guru{Fore.WHITE}: {Fore.BLUE}{AUTOUPLOAD}\n")
+if AUTOUPLOAD:
+    print(f"{Fore.YELLOW}Выгружать если аккаунтов создано: {Fore.BLUE}{AUTOUPLOAD_IF_MORE_THAN}\n")
+print(Fore.CYAN +     f"========================================{Fore.WHITE}")
+
+
+while True:
+    try:
+        tasks = int(input(f"\n{Fore.YELLOW}Введите необходимое количество аккаунтов: {Fore.BLUE}"))
+        break
+    except ValueError:
+        print(f"\n{Fore.RED}Количество аккаунтов может быть только числом")
 
 robot = Robot(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
 
 # повторяем цикл в зависимости от количества задач
 for task in range(TASKS):
-    print(f"[main] Задача {task}/{TASKS}")
+    print(f"\n{Fore.YELLOW}Задача: {Fore.CYAN}{task}/{TASKS}\n")
     """
     вызов метода покупки номера
     

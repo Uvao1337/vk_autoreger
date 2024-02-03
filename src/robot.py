@@ -1,4 +1,5 @@
 import time
+from colorama import Fore
 from src.api import Executor
 from faker import Faker
 from selenium import webdriver
@@ -52,21 +53,12 @@ class Robot:
         self.allow_button = "/html/body/div[1]/div/div/div[3]/div/div[1]/button[1]"
 
     
-    def __connect_mail(self, mail) -> bool:
+    def __humanize_account(self) -> bool:
         """
-        СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ
+        СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ СДЕЛАТЬ 
 
-        return получилось или не получилось
+        return успех или нет
         """
-        pass
-
-    def __create_mail_ru(self) -> dict:
-        """
-        СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ 
-
-        return {почта, пароль}
-        """
-        
         pass
     
     def __get_vk_token(self) -> str:
@@ -81,119 +73,108 @@ class Robot:
             # переключаемся на нее
             self.browser.switch_to.window(self.browser.window_handles[1])
             # открываем сайт для получения токена
-            if self.debug_mode:
-                print("[robot] - Открываю сайт для получения токена")
+            print(f"{Fore.GREEN}[info] - Открываю сайт для получения токена")
             self.browser.get(self.get_token_url)
             # нажимаем кнопку настройки
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку настройки")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку настройки")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.settings_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка настройки не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка настройки не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
             # тыкаем на все разрешения
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить аудио")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить аудио")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_audio_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить аудио не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить аудио не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить уведомления")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить уведомления")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_notifications_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить уведолмения не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить уведолмения не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить добавить в меню")    
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить добавить в меню")    
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_add_to_menu_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить добавить в меню не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить добавить в меню не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить быстрые посты")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить быстрые посты")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_fast_posts_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить быстрые посты не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить быстрые посты не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить сообщения")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить сообщения")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_messages_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить сообщения не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить сообщения не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить рекламу")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить рекламу")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_ads_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить рекламу не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить рекламу не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить номер телефона")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить номер телефона")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_phone_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить номер телефона не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить номер телефона не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
 
             # нажимаем кнопку получить
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку получить токен")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку получить токен")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.get_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка получить токен не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[[info] - Кнопка получить токен не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
 
             # нажимаем кнопку разрешить
-            if self.debug_mode:
-                print("[robot] - Нажимаю кнопку разрешить")
+            print(f"{Fore.GREEN}[info] - Нажимаю кнопку разрешить")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_button))).click()
                 time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
-                print("[robot] Кнопка разрешить не найдена. Проверьте XPATH. ENTER для выхода")
+                print(f"{Fore.RED}[info] - Кнопка разрешить не найдена. Проверьте XPATH. ENTER для выхода")
                 input()
                 exit()
                 
-        except Exception as x:
+        except Exception:
             self.browser.quit()
-            print(f"[robot] Произошла неизвестная ошибка. Текст ошибки: {x} ENTER для выхода")
+            print(f"{Fore.RED}[info] - Произошла неизвестная ошибка. ENTER для выхода")
             input()
             exit()
             
@@ -204,10 +185,10 @@ class Robot:
         
     def create_vk(self, number) -> dict:
         try:
+            print(f"{Fore.YELLOW}[info] - Текущий баланс: {Fore.BLUE}{self.sms.get_balance()}{Fore.YELLOW} ₽\n")
             # # открываем вк
-            if self.debug_mode:
-                print("[robot] - Начинаю алгоритм создания аккаунта")
-                print("[robot] - Открываю вк")
+            print(f"{Fore.GREEN}[info] - Начинаю алгоритм создания аккаунта")
+            print(f"{Fore.GREEN}[info] - Открываю вк")
             self.browser.get(self.vk_url)
 
             ## находим кнопку sign up и нажимаем на нее
@@ -328,10 +309,8 @@ class Robot:
         """
         получение токена (__get_vk_token)
 
-        создание почты mail.ru (__create_mail_ru)
+        заполнение аккаунта
 
-        привязка mail.ru к аккаунту вк (__connect_mail)
-
-        return {номер, токен, почта, пароль от почты}
+        return {номер, пароль токен}
         """
 
