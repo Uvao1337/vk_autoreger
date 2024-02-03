@@ -34,7 +34,15 @@ sms = Executor(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
 robot = Robot(debug_mode=DEBUG_MODE)
 
 for task in range(TASKS):
-    robot.create_vk(TEST)
+    """
+    вызов метода покупки номера
+    
+    вызов метода создания акка вк
+
+    получение данных и запись их в файлик
+    """
+    data = robot.create_vk(TEST)
+
     
 
 

@@ -30,19 +30,33 @@ class Robot:
         self.sex_input = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[1]/div[3]/label/select"
         self.continue3_button = "/html/body/div[1]/div/div/div/div/div[1]/div/div/div/div/section/div[1]/form/div/div[2]/button/span[1]"
     
-    def __connect_mail(self, mail) -> None:
-        # СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ 
+    
+    def __connect_mail(self, mail) -> bool:
+        """
+        СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ
+
+        return получилось или не получилось
+        """
         pass
 
-    def __create_mail_ru(self) -> None:
-        # СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ 
+    def __create_mail_ru(self) -> dict:
+        """
+        СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ 
+
+        return {почта, пароль}
+        """
+        
         pass
 
-    def __get_vk_token(self) -> None:
-        # СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ СДЕЛАТЬ 
+    def __get_vk_token(self) -> str:
+        """
+        СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ СДЕЛАТЬ 
+
+        return токен
+        """
         pass
 
-    def create_vk(self, number) -> None:
+    def create_vk(self, number) -> dict:
         # # открываем вк
         self.browser.get(self.vk_url)
         # находим кнопку sign up и нажимаем на нее
@@ -56,9 +70,7 @@ class Robot:
         field.send_keys(number)
         # находим кнопку продолжить и нажимаем на нее
         WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue_button))).click()
-        """
-        логика для получения и ввода кода...
-        """
+        # логика для получения и ввода кода...
         code = input("код: ")
         WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.code_field))).send_keys(code)
         WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue2_button))).click()
@@ -71,5 +83,13 @@ class Robot:
         select = Select(self.browser.find_element(By.XPATH, self.sex_input))
         select.select_by_value("2")
         WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.continue3_button))).click()
-        
+        """
+        получение токена (__get_vk_token)
+
+        создание почты mail.ru (__create_mail_ru)
+
+        привязка mail.ru к аккаунту вк (__connect_mail)
+
+        return {номер, токен, почта, пароль от почты}
+        """
 
