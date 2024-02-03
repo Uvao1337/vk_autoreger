@@ -5,12 +5,13 @@ from src.api import Executor
 from src.robot import Robot
 
 cfg = configparser.ConfigParser()
-cfg.read('cfg/config.ini')
+cfg.read('cfg/config.ini', encoding='utf-8')
 
 SMS_ACTIVATE_KEY = cfg['Settings']['sms_activate_key']
 DEBUG_MODE = cfg['Settings']['debug_mode']
 PROXY = cfg['Settings']['proxy']
 MAX_PRICE = cfg['Settings']['max_price']
+SEX = cfg['Settings']['accounts_sex']
 AUTOUPLOAD = cfg['Settings']['auto_upload']
 AUTOUPLOAD_IF_MORE_THAN = cfg['Settings']['autoupload_if_more_than']
 TASKS = 1
@@ -33,9 +34,10 @@ print(                  "|                                  |")
 print(                  f"|         {Fore.WHITE}и {Fore.BLUE}Тимоши{Fore.WHITE} к {Fore.MAGENTA}Лере {Fore.YELLOW}         |")
 print(                  "|                                  |")
 print(                  "===================================\n\n")
-print(f"{Fore.BLUE}Настройки:\n\n{Fore.CYAN}=======================================\n")
+print(f"{Fore.BLUE}---> Настройки <---\n\n{Fore.CYAN}=======================================\n")
 print(f"{Fore.YELLOW}Режим отладки: {Fore.BLUE}{DEBUG_MODE}\n\n"
       f"{Fore.YELLOW}Максимальная цена номера: {Fore.BLUE}{MAX_PRICE}\n\n"
+      f"{Fore.YELLOW}Пол аккаунтов: {Fore.BLUE}{SEX}\n\n"
       f"{Fore.YELLOW}Автовыгрузка на {Fore.GREEN}lolz.guru{Fore.WHITE}: {Fore.BLUE}{AUTOUPLOAD}\n")
 if AUTOUPLOAD:
     print(f"{Fore.YELLOW}Выгружать если аккаунтов создано: {Fore.BLUE}{AUTOUPLOAD_IF_MORE_THAN}\n")
