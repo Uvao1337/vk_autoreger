@@ -1,6 +1,8 @@
+import os
 from src.api import Executor
 from src.robot import Robot
-
+os.system('cls')
+os.system('TITLE autoreger v 1.0')
 """
 " " " " " " " " " " "                   
 "  autoreger        "
@@ -14,6 +16,7 @@ from src.robot import Robot
 
 TODO: метод создания почты мэйл ру через регнутый акк + привязка почты к вк
 TODO: метод получения токена череза vk_host
+TODO: обработка исключений
 
 """
 
@@ -35,7 +38,7 @@ robot = Robot(debug_mode=DEBUG_MODE)
 
 for task in range(TASKS):
     if DEBUG_MODE:
-        print(f"[main] Задача {task}/{TASKS}\n")
+        print(f"[main] Задача {task}/{TASKS}")
     """
     вызов метода покупки номера
     
