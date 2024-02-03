@@ -51,17 +51,11 @@ while True:
 
 robot = Robot(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
 
-# повторяем цикл в зависимости от количества задач
-for task in range(1, TASKS):
-    print(f"\n{Fore.YELLOW}Задача: {Fore.CYAN}{task}/{TASKS}\n")
-    """
-    вызов метода покупки номера
-    
-    вызов метода создания акка вк
-
-    получение данных и запись их в файлик
-    """
-    data = robot.create_vk(TEST)
+task_counter = 1
+for task in range(TASKS):
+    print(f"\n{Fore.YELLOW}Задача: {Fore.CYAN}{task_counter}/{TASKS}\n")
+    robot.create_vk()
+    task_counter += 1
     
 
     

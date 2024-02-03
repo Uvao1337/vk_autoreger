@@ -183,7 +183,7 @@ class Robot:
         input(url)
 
         
-    def create_vk(self, number) -> dict:
+    def create_vk(self) -> dict:
         try:
             print(f"{Fore.YELLOW}[info] - Текущий баланс: {Fore.BLUE}{self.sms.get_balance()}{Fore.YELLOW} ₽\n")
             # # открываем вк
