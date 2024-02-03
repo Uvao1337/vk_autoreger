@@ -105,7 +105,7 @@ class Robot:
                 input()
                 exit()
             if self.debug_mode:
-                print("[robot] - Нажимаю кнопку уведомления аудио")
+                print("[robot] - Нажимаю кнопку разрешить уведомления")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_notifications_button))).click()
                 time.sleep(5)
