@@ -8,14 +8,14 @@ cfg = configparser.ConfigParser()
 cfg.read('cfg/config.ini', encoding='utf-8')
 
 SMS_ACTIVATE_KEY = cfg['Settings']['sms_activate_key']
-DEBUG_MODE = cfg['Settings']['debug_mode']
-PROXY = cfg['Settings']['proxy']
-MAX_WAIT = int(cfg['Settings']['max_code_wait'])
 SEX = cfg['Settings']['accounts_sex']
-AUTOFILL = cfg['Settings']['autofill_accounts']
-AUTOUPLOAD = cfg['Settings']['auto_upload']
-AUTOUPLOAD_IF_MORE_THAN = cfg['Settings']['autoupload_if_more_than']
-AUTOPROMOTION = cfg['Settings']['auto_promotion']
+PROXY = cfg['Settings']['proxy']
+AUTOUPLOAD_IF_MORE_THAN = int(cfg['Settings']['autoupload_if_more_than'])
+MAX_WAIT = int(cfg['Settings']['max_code_wait'])
+DEBUG_MODE = bool(cfg['Settings']['debug_mode'])
+AUTOFILL = bool(cfg['Settings']['autofill_accounts'])
+AUTOUPLOAD = bool(cfg['Settings']['auto_upload'])
+AUTOPROMOTION = bool(cfg['Settings']['auto_promotion'])
 TASKS = 1
 TEST = '+792570613376'
 
