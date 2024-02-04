@@ -12,6 +12,7 @@ DEBUG_MODE = cfg['Settings']['debug_mode']
 PROXY = cfg['Settings']['proxy']
 MAX_PRICE = cfg['Settings']['max_price']
 SEX = cfg['Settings']['accounts_sex']
+AUTOFILL = cfg['Settings']['autofill_accounts']
 AUTOUPLOAD = cfg['Settings']['auto_upload']
 AUTOUPLOAD_IF_MORE_THAN = cfg['Settings']['autoupload_if_more_than']
 AUTOPROMOTION = cfg['Settings']['auto_promotion']
@@ -40,6 +41,7 @@ print(f"{Fore.YELLOW}Режим отладки: {Fore.BLUE}{DEBUG_MODE}\n\n"
       f"{Fore.YELLOW}Максимальная цена номера: {Fore.BLUE}{MAX_PRICE}\n\n"
       f"{Fore.YELLOW}Автоповышение максимальной цены: {Fore.BLUE}{AUTOPROMOTION}\n\n"
       f"{Fore.YELLOW}Пол аккаунтов: {Fore.BLUE}{SEX}\n\n"
+      f"{Fore.YELLOW}Автозаполнение аккаунтов {Fore.RED}(повышает шанс блокировки): {Fore.BLUE}{AUTOFILL}\n\n"
       f"{Fore.YELLOW}Автовыгрузка на {Fore.GREEN}lolz.guru{Fore.WHITE}: {Fore.BLUE}{AUTOUPLOAD}\n")
 if AUTOUPLOAD:
     print(f"{Fore.YELLOW}Выгружать если аккаунтов создано: {Fore.BLUE}{AUTOUPLOAD_IF_MORE_THAN}\n")
