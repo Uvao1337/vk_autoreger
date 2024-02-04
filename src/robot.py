@@ -189,6 +189,19 @@ class Robot:
             print(f"{Fore.YELLOW}[{datetime.now()}][INFO] - Текущий баланс: {Fore.BLUE}{self.sms.get_balance()}{Fore.YELLOW} ₽\n")
             # # открываем вк
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Начинаю алгоритм создания аккаунта")
+            count = 1
+            while True:
+                print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Покупаю номер Попытка {count}")
+                data = self.sms.get_number()
+                if data['result']:
+                    id = data['id']
+                    number = data['number']
+                    print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Номер успешно получен Номер: {number} Айди: {id}")
+                    break
+                else:
+                    print(f"{Fore.YELLOW}[{datetime.now()}][INFO] - Не удалось купить номер")
+                    time.sleep(5)
+                    count += 1
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Открываю вк")
             self.browser.get(self.vk_url)
 
@@ -209,7 +222,7 @@ class Robot:
                 field.click()
                 field.send_keys(Keys.BACK_SPACE)
                 field.send_keys(Keys.BACK_SPACE)
-                field.send_keys('+14504263805')
+                field.send_keys(number)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Поле для ввода номера не найдено. Проверьте XPATH. ENTER для выхода")
@@ -226,9 +239,19 @@ class Robot:
                 input()
                 exit()
 
-            # логика для получения и ввода кода...
-            code = input(f"{Fore.YELLOW}Код подтверждения: ")
-            
+            count = 1
+            while True:
+                print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Жду код Попытка {count}")
+                get_code = self.sms.get_code(id)
+                if get_code['result']:
+                    code = get_code['code']
+                    print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Код успешно получен Код: {code}")
+                    break
+                else:
+                    print(f"{Fore.YELLOW}[{datetime.now()}][INFO] - Код еще не пришел")
+                    count += 1
+                    time.sleep(5)
+
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Ввожу код")
             try:
                 WebDriverWait(self.browser, 30).until(EC.element_to_be_clickable((By.XPATH, self.code_field))).send_keys(code)

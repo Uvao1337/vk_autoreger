@@ -16,7 +16,7 @@ class Executor:
         return balance
 
 
-    def get_number(self, max_price=None) -> dict:
+    def get_number(self) -> dict:
         data = {"action" : "getNumber",
                 "service" : "vk",
                 "api_key" : self.sms_activate_key,
@@ -34,35 +34,25 @@ class Executor:
             print(r.text)
             return {"result" : False, "reason" : r.text}
     
-    def get_state(self, activation_id) -> bool:
+    def get_code(self, activation_id) -> dict:
         data = {"action" : "getStatus",
                     "api_key" : self.sms_activate_key,
                     "id" : activation_id
                     }
         # делаем запрос на получение состояния активации
         r = requests.get(self.api_url, params=data)
+        print(r.text)
         # если успешно
-        if r.text == "ACCESS_READY":
-            print(r.text)
-            return True
+        if r.text == "STATUS_OK":
+            return {"result" : True, "code" : r.text.split(":")[1]}
         # если неуспешно
+        elif r.text == "STATUS_WAIT_CODE":
+            return {"result" : False}
         else:
-            return False
+            return {"result" : False, "reason" : r.text}
+
     
-    def get_code(self, activation_id) -> dict:
-        data = {"action" : "getHistory",
-                "api_key" : self.sms_activate_key
-                }
-        # делаем апи запрос на получение истории активаций
-        r = requests.get(self.api_url, params=data)
-        print(r)
-        # проходимся по каждому элементу в списке
-        for element in r:
-            # если айди активации наш, то возвращаем смс код
-            if activation_id in element:
-                return {"result" : True, "code" : element['sms']}
-        # иначе возвращаем неудачу
-        return {"result" : False, "reason" : "код не найден"}
+   
         
 
 
