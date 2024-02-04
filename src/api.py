@@ -20,7 +20,7 @@ class Executor:
         data = {"action" : "getNumber",
                 "service" : "vk",
                 "api_key" : self.sms_activate_key,
-                "country" : 36
+                "country" : 36,
                 }
         # делаем апи запрос на получение номера
         r = requests.get(self.api_url, params=data)

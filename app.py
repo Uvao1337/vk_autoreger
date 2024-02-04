@@ -10,7 +10,7 @@ cfg.read('cfg/config.ini', encoding='utf-8')
 SMS_ACTIVATE_KEY = cfg['Settings']['sms_activate_key']
 DEBUG_MODE = cfg['Settings']['debug_mode']
 PROXY = cfg['Settings']['proxy']
-MAX_PRICE = cfg['Settings']['max_price']
+MAX_WAIT = int(cfg['Settings']['max_code_wait'])
 SEX = cfg['Settings']['accounts_sex']
 AUTOFILL = cfg['Settings']['autofill_accounts']
 AUTOUPLOAD = cfg['Settings']['auto_upload']
@@ -38,7 +38,7 @@ print(                  "|                                  |")
 print(                  "===================================\n\n")
 print(f"{Fore.BLUE}---> Настройки <---\n\n{Fore.CYAN}=======================================\n")
 print(f"{Fore.YELLOW}Режим отладки: {Fore.BLUE}{DEBUG_MODE}\n\n"
-      f"{Fore.YELLOW}Максимальная цена номера: {Fore.BLUE}{MAX_PRICE}\n\n"
+      f"{Fore.YELLOW}Максимальное количество попыток получить код: {Fore.BLUE}{MAX_WAIT}\n\n"
       f"{Fore.YELLOW}Автоповышение максимальной цены: {Fore.BLUE}{AUTOPROMOTION}\n\n"
       f"{Fore.YELLOW}Пол аккаунтов: {Fore.BLUE}{SEX}\n\n"
       f"{Fore.YELLOW}Автозаполнение аккаунтов {Fore.RED}(повышает шанс блокировки): {Fore.BLUE}{AUTOFILL}\n\n"
@@ -55,7 +55,7 @@ while True:
     except ValueError:
         print(f"\n{Fore.RED}Количество аккаунтов может быть только числом")
 
-robot = Robot(sms_activate_key=SMS_ACTIVATE_KEY, debug_mode=DEBUG_MODE)
+robot = Robot(sms_activate_key=SMS_ACTIVATE_KEY, max_wait = MAX_WAIT, debug_mode=DEBUG_MODE)
 
 task_counter = 1
 for task in range(TASKS):

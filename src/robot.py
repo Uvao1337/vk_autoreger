@@ -12,8 +12,9 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.common.exceptions import TimeoutException
 
 class Robot:
-    def __init__(self, sms_activate_key, debug_mode = False) -> None:
+    def __init__(self, sms_activate_key, max_wait, debug_mode = False) -> None:
         self.sms_activate_key = sms_activate_key
+        self.max_wait = max_wait
         self.debug_mode = debug_mode
         self.sms = Executor(sms_activate_key=self.sms_activate_key, debug_mode=self.debug_mode)
         self.browser = webdriver.Chrome()
@@ -241,7 +242,12 @@ class Robot:
 
             count = 1
             while True:
-                print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Жду код Попытка {count}")
+                if count > self.max_wait:
+                    self.browser.quit()
+                    print(f"{Fore.RED}[{datetime.now()}][INFO] - Достигнуто максимальное количество попыток. ENTER для выхода")
+                    input()
+                    exit()
+                print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Жду код Попытка {count}/{self.max_wait}")
                 get_code = self.sms.get_code(id)
                 if get_code['result']:
                     code = get_code['code']
@@ -250,7 +256,7 @@ class Robot:
                 else:
                     print(f"{Fore.YELLOW}[{datetime.now()}][INFO] - Код еще не пришел")
                     count += 1
-                    time.sleep(5)
+                    time.sleep(10)
 
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Ввожу код")
             try:
