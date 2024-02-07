@@ -1,5 +1,9 @@
+import os
+import random
+import shutil
 import time
 from colorama import Fore
+import requests
 from src.api import Executor
 from faker import Faker
 from datetime import datetime
@@ -10,6 +14,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.common.exceptions import TimeoutException
+import vk_api
 
 class Robot:
     def __init__(self, sms_activate_key, max_wait, debug_mode = False) -> None:
@@ -61,8 +66,117 @@ class Robot:
 
         return успех или нет
         """
-        pass
-    
+        
+        if not self.token:
+            self.token = self.__get_vk_token()
+        session = vk_api.VkApi(token=self.token)
+        vk = session.get_api()
+        data = vk.users.get(lang=3)[0]
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        self.fake
+
+
+        def download_random_image(width, height, destination):
+            """Скачивает рандомную фотографию"""
+
+            url = f"https://picsum.photos/{width}/{height}/?random"
+            response = requests.get(url, stream=True)
+            if response.status_code == 200:
+                with open(destination, 'wb') as file:
+                    shutil.copyfileobj(response.raw, file)
+                    return True
+
+        def set_main_photo():
+            """Устанавливает аватарку для аккаунта"""
+
+            if not download_random_image(800, 600, "heh.jpg"):
+                return print("Не удалось скачать фотографию.")
+
+            url = vk.photos.getOwnerPhotoUploadServer()['upload_url']
+
+            a = os.path.basename(__file__)
+            b = os.path.abspath(__file__).replace(a, '')
+
+            request = requests.post(url, files={'photo': open(str(b) + '/heh.jpg', 'rb')}).json()
+
+            server = request['server'] 
+            hash = request['hash']
+
+            vk.photos.saveOwnerPhoto(server=server, hash=hash, photo=request['photo'])
+            print('Successfully set your avatar')
+
+        def set_screen_name():
+            """Складывает первые три символа имени, последние 3 символа фамилии и последние 4 символа ID."""
+            finnaly_screen_name = f"{first_name[0:3].lower()}{last_name[-3:].lower()}{str(data.get('id'))[-4:]}"
+            domain = vk.users.get(fields='domain')[0]['domain']
+
+            if domain == finnaly_screen_name:
+                return print('It is impossible to change the domain to the same one')
+
+            try:
+                vk.account.saveProfileInfo(screen_name=finnaly_screen_name)
+                print('Successfully set the short name')
+            except vk_api.exceptions.ApiError:
+                print('Failed to set short name')
+
+
+        def set_random_city_and_country():
+            """Устанавливает рандомный город по стране канада (id 10), также ставит плашку РОДНОГО города"""
+
+            cities = vk.database.getCities(country_id=10)
+            fake_city = self.fake.city()
+
+            vk.account.saveProfileInfo(country_id=10, city_id=random.choice(cities['items'])['id'], home_town=fake_city)
+            print('Successfully established your place of residence')
+
+        def set_relation(id_partner: int = None):
+            """Устанавливает рандомное семейное положение, можно указать id партнера по желанию"""
+            rel = random.randint(0, 8)
+
+            if rel not in [0, 1, 5, 6] and id_partner:
+                partner = id_partner
+            else: 
+                partner = None
+
+            vk.account.saveProfileInfo(relation=rel, relation_partner_id=partner)
+            print('Successfully established marital status')
+
+        def set_status():
+            """Устанавливается статус. Максимальный размер цитаты для статуса: 100 символов"""
+            link = 'http://api.forismatic.com/api/1.0/?method=getQuote'
+            while True:
+                r = requests.get(link)
+                text = r.text.partition('<quoteText>')[2]
+                text = text.partition('</quoteText>')[0]
+                if len(text) <= 100:
+                    break
+            vk.status.set(text=text)
+            print("Status successfully set")
+
+        def invite_to_groups():
+            """Инвайтится в группы по тематике. Количество групп от 5 до 10"""
+            quantity_groups = random.randint(5, 10)
+            search_requests = ['развлечения', 'tech', 'music']
+            groups = vk.groups.search(q=random.choice(search_requests), count=quantity_groups)['items']
+
+            for i in groups:
+                try:
+                    vk.groups.join(group_id=i['id'], not_sure=1)
+                except vk_api.exceptions.ApiError as ex:
+                    if ex.code == 15:
+                        continue
+            print('Successfully joined groups')
+
+        set_main_photo()
+        set_screen_name()
+        set_random_city_and_country()
+        set_relation()
+        set_status()
+        invite_to_groups()
+        return True
+
+
     def __get_vk_token(self) -> str:
         """
         СДЕЛАТЬ СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ  СДЕЛАТЬ СДЕЛАТЬ 
@@ -81,7 +195,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку настройки")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.settings_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка настройки не найдена. Проверьте XPATH. ENTER для выхода")
@@ -91,7 +204,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить аудио")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_audio_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить аудио не найдена. Проверьте XPATH. ENTER для выхода")
@@ -100,7 +212,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить уведомления")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_notifications_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить уведолмения не найдена. Проверьте XPATH. ENTER для выхода")
@@ -109,7 +220,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить добавить в меню")    
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_add_to_menu_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить добавить в меню не найдена. Проверьте XPATH. ENTER для выхода")
@@ -118,7 +228,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить быстрые посты")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_fast_posts_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить быстрые посты не найдена. Проверьте XPATH. ENTER для выхода")
@@ -127,7 +236,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить сообщения")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_messages_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить сообщения не найдена. Проверьте XPATH. ENTER для выхода")
@@ -136,7 +244,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить рекламу")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_ads_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить рекламу не найдена. Проверьте XPATH. ENTER для выхода")
@@ -145,7 +252,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить номер телефона")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_phone_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить номер телефона не найдена. Проверьте XPATH. ENTER для выхода")
@@ -156,7 +262,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку получить токен")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.get_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][[INFO] - Кнопка получить токен не найдена. Проверьте XPATH. ENTER для выхода")
@@ -167,7 +272,6 @@ class Robot:
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Нажимаю кнопку разрешить")
             try:
                 WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.XPATH, self.allow_button))).click()
-                time.sleep(5)
             except TimeoutException:
                 self.browser.quit()
                 print(f"{Fore.RED}[{datetime.now()}][INFO] - Кнопка разрешить не найдена. Проверьте XPATH. ENTER для выхода")
@@ -182,9 +286,9 @@ class Robot:
             
         # получаем содержимое адресной строки и обрезаем лишнее
         url = self.browser.current_url()
-        token = url.partition('access_token=')[2]
-        token = url.partition('&expires_in')[0]
-        return token
+        self.token = url.partition('access_token=')[2]
+        self.token = url.partition('&expires_in')[0]
+        return self.token
 
         
     def create_vk(self) -> dict:
@@ -193,6 +297,7 @@ class Robot:
             # # открываем вк
             print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Начинаю алгоритм создания аккаунта")
             count = 1
+
             while True:
                 print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Покупаю номер Попытка {count}")
                 data = self.sms.get_number()
@@ -243,6 +348,7 @@ class Robot:
                 exit()
 
             count = 1
+            # number = '79199968331'
             while True:
                 if count > self.max_wait:
                     self.browser.quit()
@@ -250,7 +356,8 @@ class Robot:
                     input()
                     exit()
                 print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Жду код Попытка {count}/{self.max_wait}")
-                get_code = self.sms.get_code(id)
+                get_code = self.sms.get_code(data.get('id'))
+                print(get_code)
                 if get_code['result']:
                     code = get_code['code']
                     print(f"{Fore.GREEN}[{datetime.now()}][INFO] - Код успешно получен Код: {code}")

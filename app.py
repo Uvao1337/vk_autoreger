@@ -62,12 +62,12 @@ for task in range(TASKS):
     print(f"\n{Fore.YELLOW}Задача: {Fore.CYAN}{task_counter}/{TASKS}\n")
     robot.create_vk()
     if AUTOFILL:
-        ### логика заполнения аккаунтов....
+        robot.__humanize_account()
         pass
     task_counter += 1
-    
 
-    
+
+
 
 
 
