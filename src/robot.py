@@ -182,7 +182,9 @@ class Robot:
             
         # получаем содержимое адресной строки и обрезаем лишнее
         url = self.browser.current_url()
-        input(url)
+        token = url.partition('access_token=')[2]
+        token = url.partition('&expires_in')[0]
+        return token
 
         
     def create_vk(self) -> dict:
